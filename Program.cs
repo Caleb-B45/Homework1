@@ -1,6 +1,7 @@
-﻿using System;
+﻿//============================================================================================================= 
+//HW1 Code 
+using System; 
 using System.Diagnostics;
-
 class Program
 {
     static void Main()
