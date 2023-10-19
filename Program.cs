@@ -1,82 +1,87 @@
 ﻿//============================================================================================================= 
 //HW1 Code 
-//Group A Problem 1
+//Group B Problem 3 
 
-using System; 
+using System;
 using System.Diagnostics;
+
 class Program
 {
     static void Main()
     {
         int n = 800000; // number of random numbers to generate
-        double[] doubleNumbers;
-        float[] floatNumbers;
-
-        // Generate random numbers for doubles
-        doubleNumbers = GenRandomDoubles(n);
-
-        // Convert doubles to floats
-        floatNumbers = ConvertDoublesToFloats(doubleNumbers);
-
+        double[] numbers;
         Stopwatch timer = new Stopwatch();
 
-        // Measure time to add doubles
+        // Generate random numbers
+        numbers = GenRandomDoubles(n);
+
+        // Measure time to Square with Multiplication
         timer.Start();
-        double doubleSum = AddDoubles(doubleNumbers);
+        ComputeSquareViaMultiplication(numbers, n);
         timer.Stop();
-        Console.WriteLine("Addition of Doubles");
-        Console.WriteLine("Elapsed time = " + timer.ElapsedMilliseconds + " ms " + timer.ElapsedTicks + " ticks");
-        float doubleAddTicks = (float)timer.ElapsedTicks;
+        Console.WriteLine("Squaring with Multiplication");
+        Console.WriteLine("Elapsed time = " +
+            timer.ElapsedMilliseconds + " ms " +
+            timer.ElapsedTicks + " ticks\n");
+        float multTicks = (float)timer.ElapsedTicks;
 
-        // Measure time to add floats
+        // Measure time to square with Math.Pow
         timer.Restart();
-        float floatSum = AddFloats(floatNumbers);
+        ComputeSquareViaMathPow(numbers, n);
         timer.Stop();
-        Console.WriteLine("Addition of Floats");
-        Console.WriteLine("Elapsed time = " + timer.ElapsedMilliseconds + " ms " + timer.ElapsedTicks + " ticks");
-        float floatAddTicks = (float)timer.ElapsedTicks;
+        Console.WriteLine("Squaring with Math.Pow");
+        Console.WriteLine("Elapsed time = " +
+            timer.ElapsedMilliseconds + " ms " +
+            timer.ElapsedTicks + " ticks\n");
+        float powTicks = (float)timer.ElapsedTicks;
 
-        Console.WriteLine("Ratio (Doubles/Floats) = " + doubleAddTicks / floatAddTicks);
+        // Measure time to square with Math.Sqrt
+        timer.Restart();
+        ComputeSquareRootViaMathSqrt(numbers, n);
+        timer.Stop();
+        Console.WriteLine("Squaring with Math.Sqrt");
+        Console.WriteLine("Elapsed time = " +
+            timer.ElapsedMilliseconds + " ms " +
+            timer.ElapsedTicks + " ticks\n");
+        float sqrtTicks = (float)timer.ElapsedTicks;
+
+        Console.WriteLine("Multiplication vs. Math.Pow: " + multTicks / powTicks);
+        Console.WriteLine("Multiplication vs. Math.Sqrt: " + multTicks / sqrtTicks);
     }
 
     static double[] GenRandomDoubles(int count)
     {
         Random rand = new Random();
-        double[] nums = new double[count];
+        double[] numbers = new double[count];
         for (int i = 0; i < count; ++i)
         {
-            nums[i] = 10000.0 * rand.NextDouble();
+            numbers[i] = 10000.0 * rand.NextDouble();
         }
-        return nums;
+        return numbers;
     }
 
-    static float[] ConvertDoublesToFloats(double[] doubles)
+    static void ComputeSquareViaMultiplication(double[] numbers, int count)
     {
-        float[] floats = new float[doubles.Length];
-        for (int i = 0; i < doubles.Length; ++i)
+        for (int i = 0; i < count; ++i)
         {
-            floats[i] = (float)doubles[i];
+            numbers[i] = numbers[i] * numbers[i];
         }
-        return floats;
     }
 
-    static double AddDoubles(double[] nums)
+    static void ComputeSquareViaMathPow(double[] numbers, int count)
     {
-        double sum = 0.0;
-        for (int i = 0; i < nums.Length; ++i)
+        for (int i = 0; i < count; ++i)
         {
-            sum += nums[i];
+            numbers[i] = Math.Pow(numbers[i], 2);
         }
-        return sum;
     }
 
-    static float AddFloats(float[] nums)
+    static void ComputeSquareRootViaMathSqrt(double[] numbers, int count)
     {
-        float sum = 0.0f;
-        for (int i = 0; i < nums.Length; ++i)
+        for (int i = 0; i < count; ++i)
         {
-            sum += nums[i];
+            numbers[i] = Math.Sqrt(numbers[i]);
         }
-        return sum;
     }
 }
